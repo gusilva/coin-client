@@ -34,6 +34,10 @@ const data: Coin[] = [
 const CoinsList: React.FC = () => {
   const styles = useStyles();
 
+  const renderTableCell = (coin: Coin, index: number): React.ReactNode => (
+    <CoinItem coin={coin} key={`${coin.id}-${index}`} />
+  );
+
   return (
     <div className={styles.container}>
       <TableContainer component={Paper}>
@@ -45,11 +49,7 @@ const CoinsList: React.FC = () => {
               <TableCell align={'right'}>{'Amount in USD'}</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {data.map((coin, index) => (
-              <CoinItem coin={coin} key={`${coin.id}-${index}`} />
-            ))}
-          </TableBody>
+          <TableBody>{data.map(renderTableCell)}</TableBody>
         </Table>
       </TableContainer>
     </div>
