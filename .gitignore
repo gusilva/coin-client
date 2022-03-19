@@ -1,2 +1,7 @@
+# Webstorm
 .idea
+
+# Node artifact files
 /node_modules
+dist/
+public/js

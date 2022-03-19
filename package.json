@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "Cryoto portfolio app",
   "main": "index.js",
-  "author": "Gustavo Silva",
+  "author": "Gustavo Silva <silvagustavo@me.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "webpack serve --mode development --open"
+  },
   "devDependencies": {
     "@types/react": "^17.0.41",
     "@types/react-dom": "^17.0.14",
