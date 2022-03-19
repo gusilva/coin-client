@@ -6,6 +6,7 @@ import api from '@/services/api/api';
 class CoinStore {
   coins: Coin[] = [];
   isUpdating: boolean = false;
+  isDeleting: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -24,10 +25,23 @@ class CoinStore {
     this.setIsUpdating(true);
     try {
       await api.updateCoinAmount(id, { amount });
+      await this.fetchPortfolioCoins();
     } catch (e) {
       console.log(e);
     } finally {
       this.setIsUpdating(false);
+    }
+  };
+
+  deletePortfolioCoinById = async (id: string) => {
+    this.setIsDeleting(true);
+    try {
+      await api.deleteCoin(id);
+      await this.fetchPortfolioCoins();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.setIsDeleting(false);
     }
   };
 
@@ -37,6 +51,10 @@ class CoinStore {
 
   setIsUpdating = (isUpdating: boolean) => {
     this.isUpdating = isUpdating;
+  };
+
+  setIsDeleting = (isDeleting: boolean) => {
+    this.isDeleting = isDeleting;
   };
 }
 
