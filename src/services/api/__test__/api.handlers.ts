@@ -10,6 +10,14 @@ export const handlers = [
   ),
   rest.post<AddCoinPayload>(
     `${CRYPTO_COIN_URL}${CRYPTO_COIN_ENDPOINT}`,
-    (req, res, ctx) => res(ctx.json(addCoinResponse)),
+    (req, res, ctx) => {
+      const { id, amount } = req.body;
+
+      if (id === 'bitcoin' && amount === 4) {
+        addCoinResponse.amount = 14;
+      }
+
+      return res(ctx.json(addCoinResponse));
+    },
   ),
 ];

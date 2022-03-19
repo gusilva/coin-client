@@ -20,7 +20,7 @@ it('Should retrieve all portfolio coins', async () => {
   expect(coins[1].amount).toBe(10);
 });
 
-it('Should add a coin amount in the portfolio', async () => {
+it('Should add two BTC to the portfolio and return the total amount', async () => {
   const coins = await axios.post('http://localhost:3000/coins', {
     id: 'BTC',
     amount: 2,
@@ -29,4 +29,15 @@ it('Should add a coin amount in the portfolio', async () => {
   expect(coins.data.id).toBe('bitcoin');
   expect(coins.data.symbol).toBe('btc');
   expect(coins.data.amount).toBe(12);
+});
+
+it('Should add four BTC to the portfolio and return the total amount', async () => {
+  const coins = await axios.post('http://localhost:3000/coins', {
+    id: 'bitcoin',
+    amount: 4,
+  });
+
+  expect(coins.data.id).toBe('bitcoin');
+  expect(coins.data.symbol).toBe('btc');
+  expect(coins.data.amount).toBe(14);
 });
