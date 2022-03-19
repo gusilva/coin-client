@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { CoinsResponse } from './api.types';
+import { CryptoCoinAPI } from './api.endpoints';
 
 const API_REQUEST_TIMEOUT = 5000;
 const API_URL = 'http://localhost:3000';
@@ -25,7 +26,7 @@ class Api {
   }
 
   public getPortfolioCoins = async () =>
-    await this.axios.get<CoinsResponse>('/coins');
+    await this.axios.get<CoinsResponse>(CryptoCoinAPI.allCoins);
 
   private readonly _responseInterceptor = (response: AxiosResponse) =>
     response.data;
