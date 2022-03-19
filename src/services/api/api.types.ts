@@ -8,6 +8,7 @@ export type Coin = {
 export type CoinsResponse = Coin[];
 export type AddCoinPayload = Coin;
 export type AddCoinResponse = Coin;
+export type UpdateCoinPayload = { amount: number };
 
 type AgentInstanceOriginal = Omit<
   AxiosInstance,

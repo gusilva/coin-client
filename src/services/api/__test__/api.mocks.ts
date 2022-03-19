@@ -16,3 +16,9 @@ export const addCoinResponse = {
   symbol: 'btc',
   amount: 12,
 };
+
+export const updateCoinResponse = {
+  id: 'ethereum',
+  symbol: 'eth',
+  amount: 8,
+};
