@@ -1,0 +1,8 @@
+{
+  "name": "coin-client",
+  "version": "1.0.0",
+  "description": "Cryoto portfolio app",
+  "main": "index.js",
+  "author": "Gustavo Silva",
+  "license": "MIT"
+}
