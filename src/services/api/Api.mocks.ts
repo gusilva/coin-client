@@ -1,11 +1,11 @@
 import { rest } from 'msw';
+import { CoinsResponse } from '@/services/api/api.types';
 
 const API_URL = 'http://localhost:3000';
 
 const handlers = [
-  rest.get<Array<{ id: string; symbol: string }>>(
-    `${API_URL}/coins`,
-    (req, res, ctx) => res(ctx.json(allCoinsResponse)),
+  rest.get<CoinsResponse>(`${API_URL}/coins`, (req, res, ctx) =>
+    res(ctx.json(allCoinsResponse)),
   ),
 ];
 
@@ -18,7 +18,7 @@ const allCoinsResponse = [
   {
     id: 'bitcoin',
     symbol: 'btc',
-    amount: 2,
+    amount: 10,
   },
 ];
 

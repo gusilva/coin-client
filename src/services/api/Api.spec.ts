@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { setupServer } from 'msw/node';
 import { handlers } from './Api.mocks';
+import api from './api';
 
 const server = setupServer(...handlers);
 
@@ -9,10 +9,12 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 it('Should retrieve all portfolio coins', async () => {
-  const { data } = await axios.get<Array<{ id: string; symbol: string }>>(
-    'http://localhost:3000/coins',
-  );
+  const coins = await api.getPortfolioCoins();
 
-  expect(data[0].id).toBe('ethereum');
-  expect(data[1].id).toBe('bitcoin');
+  expect(coins[0].id).toBe('ethereum');
+  expect(coins[0].symbol).toBe('eth');
+  expect(coins[0].amount).toBe(2);
+  expect(coins[1].id).toBe('bitcoin');
+  expect(coins[1].symbol).toBe('btc');
+  expect(coins[1].amount).toBe(10);
 });
