@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import CoinStore from '@/store/CoinStore';
+import { observer } from 'mobx-react-lite';
 import { Coin } from '@/services/api/api.types';
 import {
   Paper,
@@ -13,26 +15,13 @@ import CoinItem from '@/components/coin-item/coin-item';
 
 import { useStyles } from './coins-list.styles';
 
-const data: Coin[] = [
-  {
-    id: 'ethereum',
-    symbol: 'eth',
-    amount: 2,
-  },
-  {
-    id: 'bitcoin',
-    symbol: 'btc',
-    amount: 2,
-  },
-  {
-    id: 'string',
-    symbol: 'string',
-    amount: 0,
-  },
-];
-
-const CoinsList: React.FC = () => {
+const CoinsList: React.FC = observer(() => {
+  const { coins, fetchPortfolioCoins } = useContext(CoinStore);
   const styles = useStyles();
+
+  useEffect(() => {
+    fetchPortfolioCoins();
+  }, [fetchPortfolioCoins]);
 
   const renderTableCell = (coin: Coin, index: number): React.ReactNode => (
     <CoinItem coin={coin} key={`${coin.id}-${index}`} />
@@ -51,11 +40,11 @@ const CoinsList: React.FC = () => {
               <TableCell />
             </TableRow>
           </TableHead>
-          <TableBody>{data.map(renderTableCell)}</TableBody>
+          <TableBody>{coins.map(renderTableCell)}</TableBody>
         </Table>
       </TableContainer>
     </div>
   );
-};
+});
 
 export default CoinsList;
