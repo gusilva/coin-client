@@ -40,6 +40,7 @@ const CoinItem: React.FC<CoinItemProps> = observer(({ coin }) => {
           edge={'end'}
           aria-label={'update'}
           disabled={isDeleting}
+          color={'primary'}
         >
           <EditIcon />
         </IconButton>
@@ -50,6 +51,7 @@ const CoinItem: React.FC<CoinItemProps> = observer(({ coin }) => {
           edge={'end'}
           aria-label={'delete'}
           disabled={isDeleting}
+          color={'secondary'}
         >
           <HighlightOffIcon />
         </IconButton>
