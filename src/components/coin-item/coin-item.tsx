@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import CoinStore from '@/store/CoinStore';
 import { IconButton, TableCell, TableRow } from '@material-ui/core';
 import { Coin } from '@/services/api/api.types';
 import EditIcon from '@material-ui/icons/Edit';
@@ -11,11 +12,16 @@ type CoinItemProps = {
 };
 
 const CoinItem: React.FC<CoinItemProps> = ({ coin }) => {
+  const { updatePortfolioCoinById } = useContext(CoinStore);
   const { show, hide, RenderModal } = useModal();
 
-  const { symbol, amount } = coin;
+  const { id, symbol, amount } = coin;
 
   const onDelete = (): void => console.log('deleted');
+  const onSave = async (amt: number): Promise<void> => {
+    await updatePortfolioCoinById(id, amt);
+    hide();
+  };
 
   return (
     <TableRow>
@@ -35,7 +41,12 @@ const CoinItem: React.FC<CoinItemProps> = ({ coin }) => {
         </IconButton>
       </TableCell>
       <RenderModal>
-        <CoinForm title={symbol} initialAmount={amount} onCancel={hide} />
+        <CoinForm
+          title={symbol}
+          initialAmount={amount}
+          onCancel={hide}
+          onSave={onSave}
+        />
       </RenderModal>
     </TableRow>
   );
