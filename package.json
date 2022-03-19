@@ -4,5 +4,8 @@
   "description": "Cryoto portfolio app",
   "main": "index.js",
   "author": "Gustavo Silva",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  }
 }
