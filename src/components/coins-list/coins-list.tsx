@@ -12,6 +12,7 @@ import {
   TableRow,
 } from '@material-ui/core';
 import CoinItem from '@/components/coin-item/coin-item';
+import CoinAddForm from '@/components/coin-add-form';
 
 import { useStyles } from './coins-list.styles';
 
@@ -29,6 +30,7 @@ const CoinsList: React.FC = observer(() => {
 
   return (
     <div className={styles.container}>
+      <CoinAddForm />
       <TableContainer component={Paper}>
         <Table aria-label={'simple table'}>
           <TableHead>
