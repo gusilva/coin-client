@@ -1,6 +1,6 @@
 import { setupServer } from 'msw/node';
-import { handlers } from './Api.mocks';
-import api from './api';
+import { handlers } from './api.handlers';
+import api from '../api';
 
 const server = setupServer(...handlers);
 
