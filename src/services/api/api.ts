@@ -21,12 +21,8 @@ class Api {
       baseURL: CRYPTO_COIN_URL,
       timeout: API_TIMEOUT,
       headers: {
-        'Accept-Language': 'en,en-gb;q=0.5',
-        'Accept-Charset': 'UTF-8;q=0.7,*;q=0.7',
+        'Accept-Language': 'en',
         'Content-Type': 'application/json',
-        Pragma: 'no-cache',
-        'Cache-Control':
-          'no-store, no-cache, must-revalidate, pre-check=0, post-check=0, max-age=0',
       },
     });
 
