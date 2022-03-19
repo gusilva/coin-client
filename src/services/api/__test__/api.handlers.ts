@@ -1,13 +1,11 @@
 import { rest } from 'msw';
 import { CoinsResponse } from '@/services/api/api.types';
 import { allCoinsResponse } from './api.mocks';
-import { CryptoCoinAPI } from '../api.endpoints';
-
-const API_URL = 'http://localhost:3000';
+import { CRYPTO_COIN_URL, CryptoCoinEndpoint } from '../api.constants';
 
 export const handlers = [
   rest.get<CoinsResponse>(
-    `${API_URL}${CryptoCoinAPI.allCoins}`,
+    `${CRYPTO_COIN_URL}${CryptoCoinEndpoint.allCoins}`,
     (req, res, ctx) => res(ctx.json(allCoinsResponse)),
   ),
 ];
