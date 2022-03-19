@@ -4,6 +4,8 @@ import {
   AddCoinResponse,
   AgentInstance,
   CoinsResponse,
+  UpdateCoinPayload,
+  UpdateCoinResponse,
 } from './api.types';
 import {
   CRYPTO_COIN_URL,
@@ -36,6 +38,12 @@ class Api {
 
   public addCoinAmount = async (payload: AddCoinPayload) =>
     await this.axios.post<AddCoinResponse>(CRYPTO_COIN_ENDPOINT, payload);
+
+  public updateCoinAmount = async (id: string, payload: UpdateCoinPayload) =>
+    await this.axios.put<UpdateCoinResponse>(
+      `${CRYPTO_COIN_ENDPOINT}/${id}`,
+      payload,
+    );
 
   private readonly _responseInterceptor = (response: AxiosResponse) =>
     response.data;
