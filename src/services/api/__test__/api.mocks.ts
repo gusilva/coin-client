@@ -22,3 +22,9 @@ export const updateCoinResponse = {
   symbol: 'eth',
   amount: 8,
 };
+
+export const deleteCoinResponse = {
+  id: 'ethereum',
+  symbol: 'eth',
+  amount: 2,
+};

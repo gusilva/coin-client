@@ -45,6 +45,9 @@ class Api {
       payload,
     );
 
+  public deleteCoin = async (id: string) =>
+    await this.axios.delete(`${CRYPTO_COIN_ENDPOINT}/${id}`);
+
   private readonly _responseInterceptor = (response: AxiosResponse) =>
     response.data;
 }

@@ -2,6 +2,7 @@ import { rest } from 'msw';
 import {
   addCoinResponse,
   allCoinsResponse,
+  deleteCoinResponse,
   updateCoinResponse,
 } from './api.mocks';
 import { CRYPTO_COIN_URL, CRYPTO_COIN_ENDPOINT } from '../api.constants';
@@ -38,7 +39,6 @@ export const handlers = [
   ),
   rest.delete(
     `${CRYPTO_COIN_URL}${CRYPTO_COIN_ENDPOINT}/ethereum`,
-    (req, res, ctx) =>
-      res(ctx.status(200), ctx.set('Content-Type', 'application/json')),
+    (req, res, ctx) => res(ctx.json(deleteCoinResponse)),
   ),
 ];
