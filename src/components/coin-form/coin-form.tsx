@@ -17,7 +17,7 @@ const CANCEL_BUTTON_LABEL = 'Cancel';
 
 const CoinForm: React.FC<CoinFormProps> = observer(
   ({ title, initialAmount, onSave, onCancel }) => {
-    const { fetchPortfolioCoins, isUpdating } = useContext(CoinStore);
+    const { isUpdating } = useContext(CoinStore);
     const styles = useStyles();
     const [amount, setAmount] = useState(initialAmount);
 
@@ -28,8 +28,8 @@ const CoinForm: React.FC<CoinFormProps> = observer(
       }
     };
 
-    const onSaveAmount = (): void => {
-      onSave?.(amount).then(fetchPortfolioCoins);
+    const onSaveAmount = async (): Promise<void> => {
+      await onSave?.(amount);
     };
 
     return (
