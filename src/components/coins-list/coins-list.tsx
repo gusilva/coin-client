@@ -9,9 +9,9 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
+import CoinItem from '@/components/coin-item/coin-item';
 
 import { useStyles } from './coins-list.styles';
-import CoinItem from '@/components/coin-item/coin-item';
 
 const data: Coin[] = [
   {
@@ -47,6 +47,8 @@ const CoinsList: React.FC = () => {
               <TableCell>{'Token'}</TableCell>
               <TableCell align={'right'}>{'Quantity'}</TableCell>
               <TableCell align={'right'}>{'Amount in USD'}</TableCell>
+              <TableCell />
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>{data.map(renderTableCell)}</TableBody>
