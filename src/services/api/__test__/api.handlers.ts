@@ -36,4 +36,9 @@ export const handlers = [
       return res(ctx.json(updateCoinResponse));
     },
   ),
+  rest.delete(
+    `${CRYPTO_COIN_URL}${CRYPTO_COIN_ENDPOINT}/ethereum`,
+    (req, res, ctx) =>
+      res(ctx.status(200), ctx.set('Content-Type', 'application/json')),
+  ),
 ];

@@ -1,6 +1,7 @@
 import { setupServer } from 'msw/node';
 import { handlers } from './api.handlers';
 import api from '../api';
+import axios from 'axios';
 
 const server = setupServer(...handlers);
 
@@ -61,4 +62,10 @@ it('Should update ethereum to 20 coins to the portfolio and return the total amo
   expect(coin.id).toBe('ethereum');
   expect(coin.symbol).toBe('eth');
   expect(coin.amount).toBe(20);
+});
+
+it('Should delete ethereum and return status 200', async () => {
+  const { status } = await axios.delete('http://localhost:3000/coins/ethereum');
+
+  expect(status).toBe(200);
 });
