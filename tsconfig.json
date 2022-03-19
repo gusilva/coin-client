@@ -1,18 +1,18 @@
 {
     "compilerOptions": {
+        "target": "es6",
+        "lib": ["dom", "dom.iterable", "esnext"],
         "esModuleInterop": true,
-        "jsx": "react",
         "module": "esnext",
         "moduleResolution": "node",
-        "lib": [
-            "dom",
-            "esnext"
-        ],
-        "strict": true,
-        "sourceMap": true,
-        "target": "esnext",
+        "jsx": "react",
+        "rootDir": "src",
+        "baseUrl": "src",
+        "paths": {
+            "@/*": ["*"]
+        },
+        "allowJs": true,
+        "resolveJsonModule": true
     },
-    "exclude": [
-        "node_modules"
-    ]
+    "include": ["src"]
 }

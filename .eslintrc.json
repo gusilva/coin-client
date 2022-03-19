@@ -1,0 +1,37 @@
+{
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "standard-with-typescript",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["react"],
+  "parserOptions": {
+    "project": "./tsconfig-eslint.json"
+  },
+  "rules": {
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "arrow-body-style": [
+      "error", "as-needed"
+    ],
+    "react/jsx-boolean-value": [
+      "error", "always"
+    ],
+    "react/jsx-curly-brace-presence": [
+      "error",
+      { "props": "always", "children": "always" }
+    ],
+    "import/newline-after-import": 1,
+    "import/no-duplicates": [
+      "error"
+    ],
+    "semi": [
+      "error", "always"
+    ]
+  }
+}
+
