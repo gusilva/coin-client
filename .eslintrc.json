@@ -16,6 +16,8 @@
   "rules": {
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/no-extraneous-class": "off",
+    "@typescript-eslint/no-floating-promises": 1,
     "arrow-body-style": [
       "error", "as-needed"
     ],
