@@ -10,3 +10,9 @@ export const allCoinsResponse = [
     amount: 10,
   },
 ];
+
+export const addCoinResponse = {
+  id: 'bitcoin',
+  symbol: 'btc',
+  amount: 12,
+};

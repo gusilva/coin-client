@@ -1,11 +1,15 @@
 import { rest } from 'msw';
-import { CoinsResponse } from '@/services/api/api.types';
-import { allCoinsResponse } from './api.mocks';
-import { CRYPTO_COIN_URL, CryptoCoinEndpoint } from '../api.constants';
+import { addCoinResponse, allCoinsResponse } from './api.mocks';
+import { CRYPTO_COIN_URL, CRYPTO_COIN_ENDPOINT } from '../api.constants';
+import { AddCoinPayload, CoinsResponse } from '../api.types';
 
 export const handlers = [
   rest.get<CoinsResponse>(
-    `${CRYPTO_COIN_URL}${CryptoCoinEndpoint.allCoins}`,
+    `${CRYPTO_COIN_URL}${CRYPTO_COIN_ENDPOINT}`,
     (req, res, ctx) => res(ctx.json(allCoinsResponse)),
+  ),
+  rest.post<AddCoinPayload>(
+    `${CRYPTO_COIN_URL}${CRYPTO_COIN_ENDPOINT}`,
+    (req, res, ctx) => res(ctx.json(addCoinResponse)),
   ),
 ];
