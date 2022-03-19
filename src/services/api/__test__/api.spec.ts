@@ -1,7 +1,6 @@
 import { setupServer } from 'msw/node';
 import { handlers } from './api.handlers';
 import api from '../api';
-import axios from 'axios';
 
 const server = setupServer(...handlers);
 
@@ -21,23 +20,25 @@ it('Should retrieve all portfolio coins', async () => {
 });
 
 it('Should add two BTC to the portfolio and return the total amount', async () => {
-  const coins = await axios.post('http://localhost:3000/coins', {
-    id: 'BTC',
+  const coin = await api.addCoinAmount({
+    id: 'bitcoin',
+    symbol: 'BTC',
     amount: 2,
   });
 
-  expect(coins.data.id).toBe('bitcoin');
-  expect(coins.data.symbol).toBe('btc');
-  expect(coins.data.amount).toBe(12);
+  expect(coin.id).toBe('bitcoin');
+  expect(coin.symbol).toBe('btc');
+  expect(coin.amount).toBe(12);
 });
 
 it('Should add four BTC to the portfolio and return the total amount', async () => {
-  const coins = await axios.post('http://localhost:3000/coins', {
+  const coin = await api.addCoinAmount({
     id: 'bitcoin',
+    symbol: 'BTC',
     amount: 4,
   });
 
-  expect(coins.data.id).toBe('bitcoin');
-  expect(coins.data.symbol).toBe('btc');
-  expect(coins.data.amount).toBe(14);
+  expect(coin.id).toBe('bitcoin');
+  expect(coin.symbol).toBe('btc');
+  expect(coin.amount).toBe(14);
 });

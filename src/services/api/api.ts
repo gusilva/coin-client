@@ -1,5 +1,10 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { CoinsResponse } from './api.types';
+import axios, { AxiosResponse } from 'axios';
+import {
+  AddCoinPayload,
+  AddCoinResponse,
+  AgentInstance,
+  CoinsResponse,
+} from './api.types';
 import {
   CRYPTO_COIN_URL,
   API_TIMEOUT,
@@ -7,7 +12,7 @@ import {
 } from './api.constants';
 
 class Api {
-  private readonly axios: AxiosInstance;
+  private readonly axios: AgentInstance;
 
   constructor() {
     this.axios = axios.create({
@@ -28,6 +33,9 @@ class Api {
 
   public getPortfolioCoins = async () =>
     await this.axios.get<CoinsResponse>(CRYPTO_COIN_ENDPOINT);
+
+  public addCoinAmount = async (payload: AddCoinPayload) =>
+    await this.axios.post<AddCoinResponse>(CRYPTO_COIN_ENDPOINT, payload);
 
   private readonly _responseInterceptor = (response: AxiosResponse) =>
     response.data;
