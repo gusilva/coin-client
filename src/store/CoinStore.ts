@@ -7,6 +7,7 @@ class CoinStore {
   coins: Coin[] = [];
   isUpdating: boolean = false;
   isDeleting: boolean = false;
+  isAdding: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -18,6 +19,18 @@ class CoinStore {
       this.setCoins(coins);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  addCoinToPortfolio = async (coin: Coin) => {
+    this.setIsAdding(true);
+    try {
+      await api.addCoinAmount(coin);
+      await this.fetchPortfolioCoins();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.setIsAdding(false);
     }
   };
 
@@ -55,6 +68,10 @@ class CoinStore {
 
   setIsDeleting = (isDeleting: boolean) => {
     this.isDeleting = isDeleting;
+  };
+
+  setIsAdding = (isAdding: boolean) => {
+    this.isAdding = isAdding;
   };
 }
 
