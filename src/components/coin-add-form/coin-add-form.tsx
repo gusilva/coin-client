@@ -1,27 +1,42 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import CoinStore from '@/store/CoinStore';
-import { Button, Grid, TextField } from '@material-ui/core';
+import CryptoCoinsStore, { CryptoCoin } from '@/store/CryptoCoinsStore';
+import {
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@material-ui/core';
 
 import { useStyles } from './coin-add-form.styles';
 
 const ADD_BUTTON_LABEL = 'Add';
-const coins = [
-  {
-    id: 'bitcoin',
-    symbol: 'BTC',
-  },
-  {
-    id: 'ethereum',
-    symbol: 'ETH',
-  },
-];
+const TOKEN_SYMBOL_LABEL = 'Token Symbol';
+const AMOUNT_LABEL = 'Amount';
 
 const CoinAddForm: React.FC = observer(() => {
+  const { isAdding, addCoinToPortfolio } = useContext(CoinStore);
+  const { cryptoCoins, isFetching, fetchCryptoCoins } =
+    useContext(CryptoCoinsStore);
+
   const styles = useStyles();
-  const { addCoinToPortfolio, isAdding } = useContext(CoinStore);
-  const [coin, setCoin] = useState(coins[0].id);
+
+  const [coinIndex, setCoinIndex] = useState(0);
   const [amount, setAmount] = useState('');
+
+  useEffect(() => {
+    fetchCryptoCoins();
+  }, [fetchCryptoCoins]);
+
+  const onSelectCoinChange = ({
+    target,
+  }: React.ChangeEvent<{ value: number }>): void => {
+    setCoinIndex(target.value);
+  };
 
   const onAmountChange = ({ target }): void => {
     const value = Number(target.value);
@@ -30,17 +45,22 @@ const CoinAddForm: React.FC = observer(() => {
     }
   };
 
-  const onAdd = async (): Promise<void> => {
-    const _coin = coins.find(({ id }) => id === coin);
-
-    if (_coin) {
-      await addCoinToPortfolio({
-        ..._coin,
-        amount: Number(amount),
-      });
-      setAmount('');
-    }
+  const onAddCoin = async (): Promise<void> => {
+    await addCoinToPortfolio({
+      ...cryptoCoins[coinIndex],
+      amount: Number(amount),
+    });
+    setAmount('');
   };
+
+  const renderCoinMenuItem = useCallback(
+    ({ id, symbol }: CryptoCoin, index: number): React.ReactNode => (
+      <MenuItem key={`${id}-${index}`} value={index}>
+        {symbol.toUpperCase()}
+      </MenuItem>
+    ),
+    [],
+  );
 
   return (
     <Grid
@@ -49,46 +69,45 @@ const CoinAddForm: React.FC = observer(() => {
       className={styles.container}
       justifyContent={'center'}
     >
-      <Grid item={true} xs={4}>
-        <TextField
-          id={'outlined-select-currency-native'}
-          select={true}
-          label={'Token Symbol'}
-          SelectProps={{
-            native: true,
-          }}
-          value={coin}
-          onChange={(e) => setCoin(e.target.value)}
-          variant={'outlined'}
+      <Grid item={true} xs={4} md={2}>
+        <FormControl
           size={'small'}
+          variant={'outlined'}
           className={styles.field}
-          disabled={isAdding}
         >
-          {coins.map((option) => (
-            <option key={option.id} value={option.id}>
-              {option.symbol}
-            </option>
-          ))}
-        </TextField>
+          <InputLabel>{TOKEN_SYMBOL_LABEL}</InputLabel>
+          {!!cryptoCoins.length && (
+            <Select
+              value={coinIndex}
+              onChange={onSelectCoinChange}
+              label={TOKEN_SYMBOL_LABEL}
+              disabled={isAdding}
+            >
+              {cryptoCoins.map(renderCoinMenuItem)}
+            </Select>
+          )}
+        </FormControl>
       </Grid>
-      <Grid item={true} xs={4}>
+      <Grid item={true} xs={4} md={8}>
         <TextField
-          id={'name-size-normal'}
-          label={'Amount'}
           variant={'outlined'}
           size={'small'}
+          label={AMOUNT_LABEL}
           value={amount}
           className={styles.field}
           onChange={onAmountChange}
-          disabled={isAdding}
+          disabled={isAdding || isFetching}
+          placeholder={AMOUNT_LABEL}
+          InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid item={true} xs={2}>
+      <Grid item={true} xs={2} md={2}>
         <Button
           variant={'contained'}
           color={'primary'}
-          onClick={onAdd}
+          onClick={onAddCoin}
           disabled={isAdding}
+          className={styles.field}
         >
           {ADD_BUTTON_LABEL}
         </Button>
