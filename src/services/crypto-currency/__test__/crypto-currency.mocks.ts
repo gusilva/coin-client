@@ -12,9 +12,21 @@ const mockedListCoinsData = [
   },
 ];
 
+const mockedSimplePriceData = {
+  bitcoin: { usd: 41559 },
+  ethereum: { usd: 2876.16 },
+};
+
 export const mockedCoinGeckoListCoins = (): object => ({
   success: true,
   message: 'OK',
   code: 200,
   data: mockedListCoinsData,
+});
+
+export const mockedCoinGeckoSimplePrice = (): object => ({
+  success: true,
+  message: 'OK',
+  code: 200,
+  data: mockedSimplePriceData,
 });
