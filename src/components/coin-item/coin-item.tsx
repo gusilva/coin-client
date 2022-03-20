@@ -7,6 +7,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { useModal } from '@/hooks/useModal';
 import CoinForm from '@/components/coin-form';
+import CryptoCoinsStore from '@/store/CryptoCoinsStore';
+import { formatNumberPrecision } from '@/utils/number';
 
 type CoinItemProps = {
   coin: Coin;
@@ -15,6 +17,7 @@ type CoinItemProps = {
 const CoinItem: React.FC<CoinItemProps> = observer(({ coin }) => {
   const { updatePortfolioCoinById, deletePortfolioCoinById, isDeleting } =
     useContext(CoinStore);
+  const { getCoinPrice } = useContext(CryptoCoinsStore);
   const { show, hide, RenderModal } = useModal();
 
   const { id, symbol, amount } = coin;
@@ -32,8 +35,8 @@ const CoinItem: React.FC<CoinItemProps> = observer(({ coin }) => {
       <TableCell component={'th'} scope={'row'}>
         {symbol.toUpperCase()}
       </TableCell>
-      <TableCell align={'right'}>{amount}</TableCell>
-      <TableCell align={'right'}>{'--'}</TableCell>
+      <TableCell align={'right'}>{formatNumberPrecision(amount)}</TableCell>
+      <TableCell align={'right'}>{getCoinPrice(id, amount)}</TableCell>
       <TableCell align={'right'}>
         <IconButton
           onClick={show}
