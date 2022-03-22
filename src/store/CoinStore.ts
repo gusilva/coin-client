@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { makeAutoObservable } from 'mobx';
+import { messageStore, MessageType } from './MessageStore';
 import { Coin } from '@/services/api/api.types';
 import api from '@/services/api/api';
 
@@ -27,8 +28,10 @@ class CoinStore {
     try {
       await api.addCoinAmount(coin);
       await this.fetchPortfolioCoins();
+
+      messageStore.addMessage('Coin has been added', MessageType.SUCCESS);
     } catch (e) {
-      console.log(e);
+      messageStore.addMessage('Adding coin failed', MessageType.ERROR);
     } finally {
       this.setIsAdding(false);
     }
