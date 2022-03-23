@@ -15,4 +15,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   cancelButton: {
     flex: 1,
   },
+  title: {
+    textAlign: 'center',
+  },
 }));

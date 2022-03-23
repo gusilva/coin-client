@@ -18,6 +18,11 @@ import CoinAddForm from '@/components/coin-add-form';
 
 import { useStyles } from './coins-list.styles';
 
+const COLUMN_ONE_HEADER_LABEL = 'Token';
+const COLUMN_TWO_HEADER_LABEL = 'Quantity';
+const COLUMN_THREE_HEADER_LABEL = 'Amount in USD';
+const FOOTER_LABEL = 'Total:';
+
 const CoinsList: React.FC = observer(() => {
   const {
     portfolioCoins,
@@ -48,9 +53,9 @@ const CoinsList: React.FC = observer(() => {
         <Table aria-label={'simple table'}>
           <TableHead>
             <TableRow>
-              <TableCell>{'Token'}</TableCell>
-              <TableCell align={'right'}>{'Quantity'}</TableCell>
-              <TableCell align={'right'}>{'Amount in USD'}</TableCell>
+              <TableCell>{COLUMN_ONE_HEADER_LABEL}</TableCell>
+              <TableCell align={'right'}>{COLUMN_TWO_HEADER_LABEL}</TableCell>
+              <TableCell align={'right'}>{COLUMN_THREE_HEADER_LABEL}</TableCell>
               <TableCell />
               <TableCell />
             </TableRow>
@@ -60,7 +65,7 @@ const CoinsList: React.FC = observer(() => {
             <TableRow>
               <TableCell>
                 <Typography variant={'h6'} noWrap={true}>
-                  {'Total:'}
+                  {FOOTER_LABEL}
                 </Typography>
               </TableCell>
               <TableCell />

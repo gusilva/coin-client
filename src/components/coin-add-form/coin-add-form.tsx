@@ -107,7 +107,6 @@ const CoinAddForm: React.FC = observer(() => {
                   onScroll: onScrollCoins,
                 },
                 className: styles.menu,
-                id: 'id-menu',
                 anchorOrigin: {
                   vertical: 'bottom',
                   horizontal: 'left',

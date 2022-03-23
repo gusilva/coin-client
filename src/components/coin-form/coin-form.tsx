@@ -34,11 +34,10 @@ const CoinForm: React.FC<CoinFormProps> = observer(
 
     return (
       <>
-        <DialogTitle style={{ textAlign: 'center' }}>
+        <DialogTitle className={styles.title}>
           {title.toUpperCase()}
         </DialogTitle>
         <TextField
-          id={'outlined-basic'}
           label={'Amount'}
           value={amount}
           onChange={onAmountChange}
