@@ -7,4 +7,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   field: {
     width: '100%',
   },
+  menu: {
+    maxHeight: 300,
+  },
 }));

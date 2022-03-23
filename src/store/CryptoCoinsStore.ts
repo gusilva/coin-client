@@ -7,13 +7,17 @@ import {
 } from '@/services/crypto-currency/crypto-currency.types';
 import cryptoCurrency from '@/services/crypto-currency/crypto-currency';
 import { formatMoney } from '@/utils/money';
+import { messageStore, MessageType } from '@/store/MessageStore';
 
 export type CryptoCoin = Omit<CoinCurrencyData, 'name'>;
 type CryptoCoins = CryptoCoin[];
 
+const COIN_BATCH = 500;
+
 class CryptoCoinsStore {
-  cryptoCoins: CryptoCoins = [];
-  cryptoCoinsPrices: Map<string, number> = new Map<string, number>();
+  allCoins: CryptoCoins = [];
+  availableCoins: CryptoCoins = [];
+  coinsPrices: Map<string, number> = new Map<string, number>();
   isFetching: boolean = false;
 
   constructor() {
@@ -21,7 +25,7 @@ class CryptoCoinsStore {
   }
 
   getCoinPrice = computedFn((coinId: string, amount: number) => {
-    const price = this.cryptoCoinsPrices.get(coinId);
+    const price = this.coinsPrices.get(coinId);
     if (price) {
       return formatMoney(amount * price);
     } else {
@@ -34,8 +38,8 @@ class CryptoCoinsStore {
       this.setIsFetching(true);
       const coins = await cryptoCurrency.getCryptoCoins();
       this.setCryptoCoins(coins);
-    } catch (e) {
-      console.log(e);
+    } catch {
+      messageStore.addMessage('Error fetching coins', MessageType.ERROR);
     } finally {
       this.setIsFetching(false);
     }
@@ -46,12 +50,23 @@ class CryptoCoinsStore {
       const prices = await cryptoCurrency.getCryptoCoinsUsdPrice(coinsIds);
       this.setCryptoCoinsPrice(prices);
     } catch (e) {
-      console.log(e);
+      messageStore.addMessage('Error fetching coins prices', MessageType.ERROR);
     }
   };
 
+  loadCoins = () => {
+    if (this.availableCoins.length !== this.allCoins.length) {
+      this.availableCoins = this.allCoins.slice(
+        0,
+        this.availableCoins.length + COIN_BATCH,
+      );
+    }
+    console.log(this.availableCoins.length, this.allCoins.length);
+  };
+
   setCryptoCoins = (coins: CryptoCoins) => {
-    this.cryptoCoins = coins;
+    this.allCoins = coins;
+    this.availableCoins = coins.slice(0, COIN_BATCH);
   };
 
   setIsFetching = (isFetching: boolean) => {
@@ -60,7 +75,7 @@ class CryptoCoinsStore {
 
   setCryptoCoinsPrice = (coinsPrice: PriceCurrencyData) => {
     for (const [id, price] of Object.entries(coinsPrice)) {
-      this.cryptoCoinsPrices.set(id, price.usd);
+      this.coinsPrices.set(id, price.usd);
     }
   };
 }

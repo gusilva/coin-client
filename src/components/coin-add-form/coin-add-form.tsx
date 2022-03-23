@@ -11,6 +11,7 @@ import {
   Select,
   TextField,
 } from '@material-ui/core';
+import { debounce } from '@/utils/debounce';
 
 import { useStyles } from './coin-add-form.styles';
 
@@ -20,7 +21,7 @@ const AMOUNT_LABEL = 'Amount';
 
 const CoinAddForm: React.FC = observer(() => {
   const { isAdding, addCoinToPortfolio } = useContext(CoinStore);
-  const { cryptoCoins, isFetching, fetchCryptoCoins } =
+  const { availableCoins, isFetching, loadCoins, fetchCryptoCoins } =
     useContext(CryptoCoinsStore);
 
   const styles = useStyles();
@@ -32,13 +33,17 @@ const CoinAddForm: React.FC = observer(() => {
     fetchCryptoCoins();
   }, [fetchCryptoCoins]);
 
+  const loadMoreCoins = debounce(() => {
+    loadCoins();
+  }, 500);
+
   const onSelectCoinChange = ({
     target,
   }: React.ChangeEvent<{ value: number }>): void => {
     setCoinIndex(target.value);
   };
 
-  const onAmountChange = ({ target }): void => {
+  const onAmountChange = ({ target }: React.ChangeEvent<{ value }>): void => {
     const value = Number(target.value);
     if (value >= 0) {
       setAmount(target.value);
@@ -47,10 +52,20 @@ const CoinAddForm: React.FC = observer(() => {
 
   const onAddCoin = async (): Promise<void> => {
     await addCoinToPortfolio({
-      ...cryptoCoins[coinIndex],
+      ...availableCoins[coinIndex],
       amount: Number(amount),
     });
     setAmount('');
+  };
+
+  const onScrollCoins = ({
+    currentTarget,
+  }: React.UIEvent<HTMLDivElement>): void => {
+    const { scrollTop, scrollHeight } = currentTarget;
+
+    if (scrollTop + 300 > scrollHeight) {
+      loadMoreCoins();
+    }
   };
 
   const renderCoinMenuItem = useCallback(
@@ -76,14 +91,26 @@ const CoinAddForm: React.FC = observer(() => {
           className={styles.field}
         >
           <InputLabel>{TOKEN_SYMBOL_LABEL}</InputLabel>
-          {!!cryptoCoins.length && (
+          {!!availableCoins.length && (
             <Select
               value={coinIndex}
               onChange={onSelectCoinChange}
               label={TOKEN_SYMBOL_LABEL}
               disabled={isAdding}
+              MenuProps={{
+                PaperProps: {
+                  onScroll: onScrollCoins,
+                },
+                className: styles.menu,
+                id: 'id-menu',
+                anchorOrigin: {
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                },
+                getContentAnchorEl: null,
+              }}
             >
-              {cryptoCoins.map(renderCoinMenuItem)}
+              {availableCoins.map(renderCoinMenuItem)}
             </Select>
           )}
         </FormControl>
