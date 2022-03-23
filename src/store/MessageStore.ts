@@ -36,10 +36,6 @@ class MessageStore {
   removeMessage = () => {
     this.messages = this.messages.slice(0, -1);
   };
-
-  clear = () => {
-    this.messages = [];
-  };
 }
 
 export const messageStore = new MessageStore();

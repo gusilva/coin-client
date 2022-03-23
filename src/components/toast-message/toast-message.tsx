@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import MessageStore, { MessageType } from '@/store/MessageStore';
 import {
@@ -11,12 +11,9 @@ import CloseIcon from '@material-ui/icons/Close';
 
 const ToastMessage: React.FC = observer(() => {
   const theme = useTheme();
-  const { hasMessage, message, removeMessage, clear } =
-    useContext(MessageStore);
+  const { hasMessage, message, removeMessage } = useContext(MessageStore);
 
   const { text = '', type } = message ?? {};
-
-  useEffect(() => clear, []);
 
   const snackBackground = useMemo(() => {
     const bg = { background: theme.palette.background.paper };
