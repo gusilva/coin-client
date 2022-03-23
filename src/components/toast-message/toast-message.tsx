@@ -70,6 +70,7 @@ const ToastMessage: React.FC = observer(() => {
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       open={hasMessage}
       onClose={removeMessage}
+      autoHideDuration={5000}
     >
       {hasMessage ? SnackbarMessage : EmptySnackMessage}
     </Snackbar>
