@@ -8,8 +8,10 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
   TableRow,
+  Typography,
 } from '@material-ui/core';
 import CoinItem from '@/components/coin-item/coin-item';
 import CoinAddForm from '@/components/coin-add-form';
@@ -17,8 +19,12 @@ import CoinAddForm from '@/components/coin-add-form';
 import { useStyles } from './coins-list.styles';
 
 const CoinsList: React.FC = observer(() => {
-  const { portfolioCoins, fetchPortfolioCoins, fetchCryptoCoinsPrice } =
-    useContext(CoinStore);
+  const {
+    portfolioCoins,
+    portfolioTotalAmountInUSD,
+    fetchPortfolioCoins,
+    fetchCryptoCoinsPrice,
+  } = useContext(CoinStore);
   const styles = useStyles();
 
   useEffect(() => {
@@ -49,7 +55,22 @@ const CoinsList: React.FC = observer(() => {
               <TableCell />
             </TableRow>
           </TableHead>
-          <TableBody>{coins.map(renderTableCell)}</TableBody>
+          <TableBody>{portfolioCoins.map(renderTableCell)}</TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell>
+                <Typography variant={'h6'} noWrap={true}>
+                  {'Total:'}
+                </Typography>
+              </TableCell>
+              <TableCell />
+              <TableCell align={'right'}>
+                <Typography variant={'body1'} noWrap={true}>
+                  {portfolioTotalAmountInUSD}
+                </Typography>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
     </div>
