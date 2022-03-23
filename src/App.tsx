@@ -8,7 +8,7 @@ const App: React.FC = () => (
     <AppBar position={'absolute'}>
       <Toolbar>
         <Typography variant={'h6'} noWrap={true}>
-          {'Crypto App'}
+          {'CryptoPortfolio App'}
         </Typography>
       </Toolbar>
     </AppBar>
