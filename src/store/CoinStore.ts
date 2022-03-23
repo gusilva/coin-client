@@ -30,6 +30,16 @@ class CoinStore {
     makeAutoObservable(this);
   }
 
+  get portfolioTotalAmountInUSD(): string {
+    const total = this.portfolioCoins.reduce((accAmt: number, coin) => {
+      const price = this.coinsPrices.get(coin.id) ?? 0;
+
+      return price * coin.amount + accAmt;
+    }, 0);
+
+    return formatMoney(total);
+  }
+
   getCoinPrice = computedFn((coinId: string, amount: number) => {
     const price = this.coinsPrices.get(coinId);
     if (price) {
