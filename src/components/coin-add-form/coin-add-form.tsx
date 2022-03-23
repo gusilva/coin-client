@@ -25,7 +25,7 @@ const CoinAddForm: React.FC = observer(() => {
     isFetching,
     addCoinToPortfolio,
     loadCoins,
-    fetchCryptoCoins,
+    fetchCoinCurrencies,
   } = useContext(CoinStore);
 
   const styles = useStyles();
@@ -34,8 +34,8 @@ const CoinAddForm: React.FC = observer(() => {
   const [amount, setAmount] = useState('');
 
   useEffect(() => {
-    fetchCryptoCoins();
-  }, [fetchCryptoCoins]);
+    fetchCoinCurrencies();
+  }, [fetchCoinCurrencies]);
 
   const loadMoreCoins = debounce(() => {
     loadCoins();

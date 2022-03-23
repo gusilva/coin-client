@@ -23,7 +23,7 @@ const CoinsList: React.FC = observer(() => {
     portfolioCoins,
     portfolioTotalAmountInUSD,
     fetchPortfolioCoins,
-    fetchCryptoCoinsPrice,
+    fetchCoinCurrencyPrice,
   } = useContext(CoinStore);
   const styles = useStyles();
 
@@ -33,7 +33,7 @@ const CoinsList: React.FC = observer(() => {
 
   useEffect(() => {
     if (portfolioCoins.length) {
-      fetchCryptoCoinsPrice(portfolioCoins.map(({ id }) => id));
+      fetchCoinCurrencyPrice(portfolioCoins.map(({ id }) => id));
     }
   }, [portfolioCoins]);
 

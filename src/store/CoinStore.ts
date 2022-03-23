@@ -96,11 +96,11 @@ class CoinStore {
     }
   };
 
-  fetchCryptoCoins = async () => {
+  fetchCoinCurrencies = async () => {
     try {
       this.setIsFetching(true);
       const coins = await cryptoCurrency.getCryptoCoins();
-      this.setCryptoCoins(coins);
+      this.setCoinCurrencies(coins);
     } catch {
       messageStore.addMessage('Error fetching coins', MessageType.ERROR);
     } finally {
@@ -108,10 +108,10 @@ class CoinStore {
     }
   };
 
-  fetchCryptoCoinsPrice = async (coinsIds: string[]) => {
+  fetchCoinCurrencyPrice = async (coinsIds: string[]) => {
     try {
       const prices = await cryptoCurrency.getCryptoCoinsUsdPrice(coinsIds);
-      this.setCryptoCoinsPrice(prices);
+      this.setCoinCurrencyPrice(prices);
     } catch (e) {
       messageStore.addMessage('Error fetching coins prices', MessageType.ERROR);
     }
@@ -142,7 +142,7 @@ class CoinStore {
     this.isAdding = isAdding;
   };
 
-  setCryptoCoins = (coins: CoinCurrencies) => {
+  setCoinCurrencies = (coins: CoinCurrencies) => {
     this.allCoins = coins;
     this.availableCoins = coins.slice(0, COIN_BATCH);
   };
@@ -151,7 +151,7 @@ class CoinStore {
     this.isFetching = isFetching;
   };
 
-  setCryptoCoinsPrice = (coinsPrice: PriceCurrencyData) => {
+  setCoinCurrencyPrice = (coinsPrice: PriceCurrencyData) => {
     for (const [id, price] of Object.entries(coinsPrice)) {
       this.coinsPrices.set(id, price.usd);
     }
