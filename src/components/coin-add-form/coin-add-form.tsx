@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import CoinStore, { CoinCurrency } from '@/store/CoinStore';
+import CoinStore from '@/store/CoinStore';
+import { CoinCurrency } from '@/types/coin.types';
 import {
   Button,
   FormControl,

@@ -4,15 +4,10 @@ import { computedFn } from 'mobx-utils';
 import { messageStore, MessageType } from './MessageStore';
 import { Coin } from '@/services/api/api.types';
 import api from '@/services/api/api';
-import {
-  CoinCurrencyData,
-  PriceCurrencyData,
-} from '@/services/crypto-currency/crypto-currency.types';
+import { PriceCurrencyData } from '@/services/crypto-currency/crypto-currency.types';
 import { formatMoney } from '@/utils/money';
 import cryptoCurrency from '@/services/crypto-currency/crypto-currency';
-
-export type CoinCurrency = Omit<CoinCurrencyData, 'name'>;
-type CoinCurrencies = CoinCurrency[];
+import { CoinCurrencies } from '@/types/coin.types';
 
 const COIN_BATCH = 500;
 
