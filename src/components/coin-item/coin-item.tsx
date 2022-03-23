@@ -7,7 +7,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { useModal } from '@/hooks/useModal';
 import CoinForm from '@/components/coin-form';
-import CryptoCoinsStore from '@/store/CryptoCoinsStore';
 import { formatNumberPrecision } from '@/utils/number';
 
 type CoinItemProps = {
@@ -15,9 +14,12 @@ type CoinItemProps = {
 };
 
 const CoinItem: React.FC<CoinItemProps> = observer(({ coin }) => {
-  const { updatePortfolioCoinById, deletePortfolioCoinById, isDeleting } =
-    useContext(CoinStore);
-  const { getCoinPrice } = useContext(CryptoCoinsStore);
+  const {
+    getCoinPrice,
+    updatePortfolioCoinById,
+    deletePortfolioCoinById,
+    isDeleting,
+  } = useContext(CoinStore);
   const { show, hide, RenderModal } = useModal();
 
   const { id, symbol, amount } = coin;

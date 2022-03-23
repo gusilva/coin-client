@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import CoinStore from '@/store/CoinStore';
-import CryptoCoinsStore from '@/store/CryptoCoinsStore';
 import { observer } from 'mobx-react-lite';
 import { Coin } from '@/services/api/api.types';
 import {
@@ -18,8 +17,8 @@ import CoinAddForm from '@/components/coin-add-form';
 import { useStyles } from './coins-list.styles';
 
 const CoinsList: React.FC = observer(() => {
-  const { coins, fetchPortfolioCoins } = useContext(CoinStore);
-  const { fetchCryptoCoinsPrice } = useContext(CryptoCoinsStore);
+  const { portfolioCoins, fetchPortfolioCoins, fetchCryptoCoinsPrice } =
+    useContext(CoinStore);
   const styles = useStyles();
 
   useEffect(() => {
@@ -27,10 +26,10 @@ const CoinsList: React.FC = observer(() => {
   }, [fetchPortfolioCoins]);
 
   useEffect(() => {
-    if (coins.length) {
-      fetchCryptoCoinsPrice(coins.map(({ id }) => id));
+    if (portfolioCoins.length) {
+      fetchCryptoCoinsPrice(portfolioCoins.map(({ id }) => id));
     }
-  }, [coins]);
+  }, [portfolioCoins]);
 
   const renderTableCell = (coin: Coin, index: number): React.ReactNode => (
     <CoinItem coin={coin} key={`${coin.id}-${index}`} />

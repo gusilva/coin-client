@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import CoinStore from '@/store/CoinStore';
-import CryptoCoinsStore, { CryptoCoin } from '@/store/CryptoCoinsStore';
+import CoinStore, { CoinCurrency } from '@/store/CoinStore';
 import {
   Button,
   FormControl,
@@ -20,9 +19,14 @@ const TOKEN_SYMBOL_LABEL = 'Token Symbol';
 const AMOUNT_LABEL = 'Amount';
 
 const CoinAddForm: React.FC = observer(() => {
-  const { isAdding, addCoinToPortfolio } = useContext(CoinStore);
-  const { availableCoins, isFetching, loadCoins, fetchCryptoCoins } =
-    useContext(CryptoCoinsStore);
+  const {
+    isAdding,
+    availableCoins,
+    isFetching,
+    addCoinToPortfolio,
+    loadCoins,
+    fetchCryptoCoins,
+  } = useContext(CoinStore);
 
   const styles = useStyles();
 
@@ -69,7 +73,7 @@ const CoinAddForm: React.FC = observer(() => {
   };
 
   const renderCoinMenuItem = useCallback(
-    ({ id, symbol }: CryptoCoin, index: number): React.ReactNode => (
+    ({ id, symbol }: CoinCurrency, index: number): React.ReactNode => (
       <MenuItem key={`${id}-${index}`} value={index}>
         {symbol.toUpperCase()}
       </MenuItem>
