@@ -40,7 +40,7 @@ const ToastMessage: React.FC = observer(() => {
       aria-describedby={'message-id2'}
       style={snackBackground}
       message={
-        <span id={'message-id2'}>
+        <span>
           <div>{text}</div>
         </span>
       }

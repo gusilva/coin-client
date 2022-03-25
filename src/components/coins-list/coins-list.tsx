@@ -49,35 +49,39 @@ const CoinsList: React.FC = observer(() => {
   return (
     <div className={styles.container}>
       <CoinAddForm />
-      <TableContainer component={Paper}>
-        <Table aria-label={'simple table'}>
-          <TableHead>
-            <TableRow>
-              <TableCell>{COLUMN_ONE_HEADER_LABEL}</TableCell>
-              <TableCell align={'right'}>{COLUMN_TWO_HEADER_LABEL}</TableCell>
-              <TableCell align={'right'}>{COLUMN_THREE_HEADER_LABEL}</TableCell>
-              <TableCell />
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>{portfolioCoins.map(renderTableCell)}</TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell>
-                <Typography variant={'h6'} noWrap={true}>
-                  {FOOTER_LABEL}
-                </Typography>
-              </TableCell>
-              <TableCell />
-              <TableCell align={'right'}>
-                <Typography variant={'body1'} noWrap={true}>
-                  {portfolioTotalAmountInUSD}
-                </Typography>
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
+      {!!portfolioCoins.length && (
+        <TableContainer component={Paper}>
+          <Table aria-label={'simple table'}>
+            <TableHead>
+              <TableRow>
+                <TableCell>{COLUMN_ONE_HEADER_LABEL}</TableCell>
+                <TableCell align={'right'}>{COLUMN_TWO_HEADER_LABEL}</TableCell>
+                <TableCell align={'right'}>
+                  {COLUMN_THREE_HEADER_LABEL}
+                </TableCell>
+                <TableCell />
+                <TableCell />
+              </TableRow>
+            </TableHead>
+            <TableBody>{portfolioCoins.map(renderTableCell)}</TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell>
+                  <Typography variant={'h6'} noWrap={true}>
+                    {FOOTER_LABEL}
+                  </Typography>
+                </TableCell>
+                <TableCell />
+                <TableCell align={'right'}>
+                  <Typography variant={'body1'} noWrap={true}>
+                    {portfolioTotalAmountInUSD}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
 });
