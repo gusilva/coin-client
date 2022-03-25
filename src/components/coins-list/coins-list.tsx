@@ -22,6 +22,7 @@ const COLUMN_ONE_HEADER_LABEL = 'Token';
 const COLUMN_TWO_HEADER_LABEL = 'Quantity';
 const COLUMN_THREE_HEADER_LABEL = 'Amount in USD';
 const FOOTER_LABEL = 'Total:';
+const COIN_LIST_TITLE = 'My current portfolio';
 
 const CoinsList: React.FC = observer(() => {
   const {
@@ -51,7 +52,10 @@ const CoinsList: React.FC = observer(() => {
       <CoinAddForm />
       {!!portfolioCoins.length && (
         <TableContainer component={Paper}>
-          <Table aria-label={'simple table'}>
+          <Typography variant={'h6'} noWrap={true} className={styles.title}>
+            {COIN_LIST_TITLE}
+          </Typography>
+          <Table aria-label={'coin table'}>
             <TableHead>
               <TableRow>
                 <TableCell>{COLUMN_ONE_HEADER_LABEL}</TableCell>

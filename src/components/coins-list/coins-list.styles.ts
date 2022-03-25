@@ -5,4 +5,10 @@ export const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     marginTop: 80,
   },
+  title: {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.primary.main,
+  },
 }));
