@@ -53,6 +53,27 @@ class CoinStore {
     }
   };
 
+  fetchCoinCurrencies = async () => {
+    try {
+      this.setIsFetching(true);
+      const coins = await cryptoCurrency.getCryptoCoins();
+      this.setCoinCurrencies(coins.filter(({ id }) => !!id));
+    } catch {
+      messageStore.addMessage('Error fetching coins', MessageType.ERROR);
+    } finally {
+      this.setIsFetching(false);
+    }
+  };
+
+  fetchCoinCurrencyPrice = async (coinsIds: string[]) => {
+    try {
+      const prices = await cryptoCurrency.getCryptoCoinsUsdPrice(coinsIds);
+      this.setCoinCurrencyPrice(prices);
+    } catch (e) {
+      messageStore.addMessage('Error fetching coins prices', MessageType.ERROR);
+    }
+  };
+
   addCoinToPortfolio = async (coin: Coin) => {
     this.setIsAdding(true);
     try {
@@ -88,27 +109,6 @@ class CoinStore {
       console.log(e);
     } finally {
       this.setIsDeleting(false);
-    }
-  };
-
-  fetchCoinCurrencies = async () => {
-    try {
-      this.setIsFetching(true);
-      const coins = await cryptoCurrency.getCryptoCoins();
-      this.setCoinCurrencies(coins);
-    } catch {
-      messageStore.addMessage('Error fetching coins', MessageType.ERROR);
-    } finally {
-      this.setIsFetching(false);
-    }
-  };
-
-  fetchCoinCurrencyPrice = async (coinsIds: string[]) => {
-    try {
-      const prices = await cryptoCurrency.getCryptoCoinsUsdPrice(coinsIds);
-      this.setCoinCurrencyPrice(prices);
-    } catch (e) {
-      messageStore.addMessage('Error fetching coins prices', MessageType.ERROR);
     }
   };
 
