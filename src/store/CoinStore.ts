@@ -9,12 +9,9 @@ import { formatMoney } from '@/utils/money';
 import cryptoCurrency from '@/services/crypto-currency/crypto-currency';
 import { CoinCurrencies } from '@/types/coin.types';
 
-const COIN_BATCH = 500;
-
 class CoinStore {
   portfolioCoins: Coin[] = [];
   allCoins: CoinCurrencies = [];
-  availableCoins: CoinCurrencies = [];
   coinsPrices: Map<string, number> = new Map<string, number>();
   isFetching: boolean = false;
   isUpdating: boolean = false;
@@ -47,7 +44,7 @@ class CoinStore {
   fetchPortfolioCoins = async () => {
     try {
       const coins = await api.getPortfolioCoins();
-      this.setCoins(coins);
+      this.setPortfolioCoins(coins);
     } catch (e) {
       console.log(e);
     }
@@ -112,16 +109,7 @@ class CoinStore {
     }
   };
 
-  loadCoins = () => {
-    if (this.availableCoins.length !== this.allCoins.length) {
-      this.availableCoins = this.allCoins.slice(
-        0,
-        this.availableCoins.length + COIN_BATCH,
-      );
-    }
-  };
-
-  setCoins = (coins: Coin[]) => {
+  setPortfolioCoins = (coins: Coin[]) => {
     this.portfolioCoins = coins;
   };
 
@@ -139,7 +127,6 @@ class CoinStore {
 
   setCoinCurrencies = (coins: CoinCurrencies) => {
     this.allCoins = coins;
-    this.availableCoins = coins.slice(0, COIN_BATCH);
   };
 
   setIsFetching = (isFetching: boolean) => {
