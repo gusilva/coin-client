@@ -42,6 +42,8 @@ const CoinAddForm: React.FC = observer(() => {
     loadCoins();
   }, 500);
 
+  const isAddButtonDisabled = !Number(amount) || isAdding;
+
   const onSelectCoinChange = ({
     target,
   }: React.ChangeEvent<{ value: number }>): void => {
@@ -137,7 +139,7 @@ const CoinAddForm: React.FC = observer(() => {
           variant={'contained'}
           color={'primary'}
           onClick={onAddCoin}
-          disabled={isAdding}
+          disabled={isAddButtonDisabled}
           className={styles.field}
         >
           {ADD_BUTTON_LABEL}
