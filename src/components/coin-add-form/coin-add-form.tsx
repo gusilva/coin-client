@@ -1,17 +1,9 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import CoinStore from '@/store/CoinStore';
 import { CoinCurrency } from '@/types/coin.types';
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@material-ui/core';
-import { debounce } from '@/utils/debounce';
+import { Button, FormControl, Grid, TextField } from '@material-ui/core';
+import { Autocomplete, createFilterOptions } from '@material-ui/lab';
 
 import { useStyles } from './coin-add-form.styles';
 
@@ -22,33 +14,22 @@ const AMOUNT_LABEL = 'Amount';
 const CoinAddForm: React.FC = observer(() => {
   const {
     isAdding,
-    availableCoins,
+    allCoins,
     isFetching,
     addCoinToPortfolio,
-    loadCoins,
     fetchCoinCurrencies,
   } = useContext(CoinStore);
 
   const styles = useStyles();
 
-  const [coinIndex, setCoinIndex] = useState(0);
+  const [selectedCoin, setSelectedCoin] = useState<CoinCurrency>();
   const [amount, setAmount] = useState('');
-
-  useEffect(() => {
-    fetchCoinCurrencies();
-  }, [fetchCoinCurrencies]);
-
-  const loadMoreCoins = debounce(() => {
-    loadCoins();
-  }, 500);
-
   const isAddButtonDisabled = !Number(amount) || isAdding;
 
-  const onSelectCoinChange = ({
-    target,
-  }: React.ChangeEvent<{ value: number }>): void => {
-    setCoinIndex(target.value);
-  };
+  const coinFilterOptions = createFilterOptions<CoinCurrency>({
+    matchFrom: 'start',
+    stringify: (option) => option.symbol,
+  });
 
   const onAmountChange = ({ target }: React.ChangeEvent<{ value }>): void => {
     const value = Number(target.value);
@@ -59,30 +40,22 @@ const CoinAddForm: React.FC = observer(() => {
 
   const onAddCoin = async (): Promise<void> => {
     await addCoinToPortfolio({
-      ...availableCoins[coinIndex],
+      ...selectedCoin,
       amount: Number(amount),
     });
     setAmount('');
   };
 
-  const onScrollCoins = ({
-    currentTarget,
-  }: React.UIEvent<HTMLDivElement>): void => {
-    const { scrollTop, scrollHeight } = currentTarget;
-
-    if (scrollTop + 300 > scrollHeight) {
-      loadMoreCoins();
-    }
+  const onSelectCoinChange = (
+    event: any,
+    newCoin: CoinCurrency | null,
+  ): void => {
+    setSelectedCoin({ ...newCoin });
   };
 
-  const renderCoinMenuItem = useCallback(
-    ({ id, symbol }: CoinCurrency, index: number): React.ReactNode => (
-      <MenuItem key={`${id}-${index}`} value={index}>
-        {symbol.toUpperCase()}
-      </MenuItem>
-    ),
-    [],
-  );
+  useEffect(() => {
+    fetchCoinCurrencies();
+  }, [fetchCoinCurrencies]);
 
   return (
     <Grid
@@ -97,27 +70,24 @@ const CoinAddForm: React.FC = observer(() => {
           variant={'outlined'}
           className={styles.field}
         >
-          <InputLabel>{TOKEN_SYMBOL_LABEL}</InputLabel>
-          {!!availableCoins.length && (
-            <Select
-              value={coinIndex}
+          {!!allCoins.length && (
+            <Autocomplete<CoinCurrency>
+              options={allCoins}
+              defaultValue={allCoins[0]}
               onChange={onSelectCoinChange}
-              label={TOKEN_SYMBOL_LABEL}
+              filterOptions={coinFilterOptions}
               disabled={isAdding}
-              MenuProps={{
-                PaperProps: {
-                  onScroll: onScrollCoins,
-                },
-                className: styles.menu,
-                anchorOrigin: {
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                },
-                getContentAnchorEl: null,
-              }}
-            >
-              {availableCoins.map(renderCoinMenuItem)}
-            </Select>
+              getOptionLabel={({ symbol }) => symbol.toUpperCase()}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label={TOKEN_SYMBOL_LABEL}
+                  variant={'outlined'}
+                  size={'small'}
+                  className={styles.field}
+                />
+              )}
+            />
           )}
         </FormControl>
       </Grid>
